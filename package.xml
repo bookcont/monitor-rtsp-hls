@@ -1,0 +1,41 @@
+<assembly xmlns="http://maven.apache.org/ASSEMBLY/2.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/ASSEMBLY/2.0.0 http://maven.apache.org/xsd/assembly-2.0.0.xsd">
+	<id>release</id>
+
+	<formats>
+		<format>zip</format>
+	</formats>
+
+	<includeBaseDirectory>false</includeBaseDirectory>
+	
+	<fileSets>
+		<!-- src/main/resources 全部 copy 到 conf 目录下 -->
+		<fileSet>
+			<directory>${basedir}/src/main/resources</directory>
+			<outputDirectory>conf</outputDirectory>
+		</fileSet>
+		<!-- lib 全部 copy 到 lib 目录下 -->
+		<fileSet>
+			<directory>${basedir}/lib</directory>
+			<outputDirectory>lib</outputDirectory>
+		</fileSet>
+		<!-- 项目根下面的脚本文件 copy 到根目录下 -->
+		<fileSet>
+			<directory>${basedir}</directory>
+			<outputDirectory></outputDirectory>
+			<!-- 脚本文件在 linux 下的权限设为 755，无需 chmod 可直接运行 -->
+			<fileMode>755</fileMode>
+			<includes>
+				<include>*.bat</include>
+			</includes>
+		</fileSet>
+	</fileSets>	
+
+	<!-- 依赖的 jar 包 copy 到 lib 目录下 -->
+	<dependencySets>
+		<dependencySet>
+			<outputDirectory>lib</outputDirectory>			
+		</dependencySet>
+	</dependencySets>
+</assembly>
