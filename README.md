@@ -19,11 +19,11 @@
 
 1.  参考根目录下的nginx.conf来配置自己的web代理nginx
 2.  解压nginx-rtmp-server.zip，这是作为rtmp流服务器用的nginx版本，可自行修改conf/nginx.conf配置
-3.  导入monitor-rtmp至eclipse，右键Main.java运行即可，生产环境可打成jar包来运行也可导出为war包部署tomcat运行
+3.  导入monitor-rtsp-hls至eclipse，右键Main.java运行即可，生产环境可打成jar包来运行也可导出为war包部署tomcat运行
 
 #### 打jar包
 
-代码中是集成的Undertow服务器，在项目根目录下执行mvn clean package即可执行打包操作，在target目录下生成项目同名的zip包，上传服务器解压，修改conf目录中monitor.properties设备配置信息后，即可执行start.bat运行
+代码中是集成的Undertow服务器，在项目根目录下执行mvn clean package即可执行打包操作，在target目录下生成项目同名release压缩包，上传服务器解压，修改conf目录中monitor.properties设备配置信息后，即可执行start.bat运行
 
 #### 感谢
 
