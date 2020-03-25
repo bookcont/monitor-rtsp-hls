@@ -47,7 +47,7 @@ public class ProcessController extends Controller{
 				e.printStackTrace();
 			}
 		}
-		//否则返回404
-		renderError(404);
+		//否则返回错误信息
+		renderText("设备编码为空或设备未配置");
 	}
 }
