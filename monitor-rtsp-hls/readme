@@ -64,5 +64,5 @@
 打包：
 1.打开命令窗口
 2.cd切换至父项目目录，如：cd d:\workspace\manager
-3.执行打包命令：mvn clean package -pl manager-chayashan-monitor-rtmp
-4.在target目录下将生成manager-chayashan-monitor-rtmp-release.zip的压缩包，可直接解压运行
+3.执行打包命令：mvn clean package -pl manager-monitor-rtmp
+4.在target目录下将生成manager-monitor-rtmp-release.zip的压缩包，可直接解压运行
