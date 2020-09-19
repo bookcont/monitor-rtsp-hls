@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<script type="text/javascript" src="hls.min.js"></script>
+	<style type="text/css">
+		#video{
+			width: 650px;
+			height:365px;
+		}
+	</style>
+</head>
+<body>
+<video id="video" controls></video>
+<script type="text/javascript">
+//初始化方法
+function init(videoElId,m3u8Url){
+	if (Hls.isSupported()) {
+		var video = document.getElementById(videoElId);
+		video.volume = 1.0;
+		hls = new Hls();
+		hls.loadSource(m3u8Url);
+		hls.attachMedia(video);
+		hls.on(Hls.Events.MANIFEST_PARSED, function () {
+			video.play();
+		});
+		return hls;
+	}
+}
+//初始化
+init("video","http://xxx.com/xxx/xxx.m3u8");
+</script>
+</body>
+</html>
