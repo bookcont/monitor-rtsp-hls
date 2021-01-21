@@ -7,13 +7,15 @@
 
 #### 使用说明
 
+0.  下载源码，解压根目录中的third.zip压缩包（因为要用到nginx和ffmpeg，直接上传又超过了上传限制，所以就压缩起来）至当前目录下，项目结构如图：
+![输入图片说明](https://images.gitee.com/uploads/images/2021/0121/114923_dd14c528_107658.png "微信图片_20210121114904.png")
 1.  在项目根目录下执行mvn clean package打包，在target目录下将生成monitor-rtsp-hls-release.zip
 2.  解压monitor-rtsp-hls-release.zip
-3.	根据需要，修改src/main/resources/config.properties配置项，如：服务端口、服务context_path、服务域名
-4.	修改conf/monitor.properties，录入项目需要对接的监控设备RTSP信息，其中监控设备代码随意命名，只是一个标识，不重复即可
-5.	双击运行start.bat即可开启服务
-6.	本服务提供了一个监控预览页面，在浏览器访问http://127.0.0.1:${服务端口}/${服务context_path}/live即可查看
-7.	对外提供监控HLS预览地址，URL格式为http://${IP}:${服务端口}/${服务context_path}/hls/${监控设备代码}/index.m3u8
+3.  根据需要，修改src/main/resources/config.properties配置项，如：服务端口、服务context_path、服务域名
+4.  修改conf/monitor.properties，录入项目需要对接的监控设备RTSP信息，其中监控设备代码随意命名，只是一个标识，不重复即可
+5.  双击运行start.bat即可开启服务
+6.  本服务提供了一个监控预览页面，在浏览器访问http://127.0.0.1:${服务端口}/${服务context_path}/live即可查看
+7.  对外提供监控HLS预览地址，URL格式为http://${IP}:${服务端口}/${服务context_path}/hls/${监控设备代码}/index.m3u8
 
 #### 原理说明
 
