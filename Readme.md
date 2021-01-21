@@ -7,7 +7,7 @@
 
 #### 使用说明
 
-0.  下载源码，解压根目录中的third.zip压缩包（因为要用到nginx和ffmpeg，直接上传又超过了上传限制，所以就压缩起来）至当前目录下，项目结构如图：
+0.  下载源码，解压根目录中的third.zip压缩包（因为要用到nginx和ffmpeg，直接上传又超过了上传限制，所以就压缩起来），解压后项目结构如图：
 ![输入图片说明](https://images.gitee.com/uploads/images/2021/0121/114923_dd14c528_107658.png "微信图片_20210121114904.png")
 1.  在项目根目录下执行mvn clean package打包，在target目录下将生成monitor-rtsp-hls-release.zip
 2.  解压monitor-rtsp-hls-release.zip
