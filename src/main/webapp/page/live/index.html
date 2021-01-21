@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Live</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
+<!-- 引入样式 -->
+<link rel="stylesheet" href="#(contextPath)static/plugins/element/element.min.css">
+</head>
+<body>
+<div id="app">
+	<el-container style="height: calc(100vh - 16px); border: 1px solid #eee">
+		<el-aside width="200px" style="background-color: rgb(238, 241, 246)">
+			<el-menu @select="onDevChoosed">
+				<el-menu-item v-for="(item,index) in devs" :index="index">
+					<span slot="title">{{item.title}}</span>
+					<i class="el-submenu__icon-arrow el-icon-arrow-right"></i>
+				</el-menu-item>
+			</el-menu>
+		</el-aside>
+		<el-container>
+			<el-main>
+				<video ref="video" controls style="width:100%;height:100%;"></video>
+			</el-main>
+		</el-container>
+	</el-container>
+</div>
+<script type="text/javascript" src="#(contextPath)static/plugins/vue/vue.min.js"></script>
+<script type="text/javascript" src="#(contextPath)static/plugins/element/element.min.js"></script>
+<script type="text/javascript" src="#(contextPath)static/plugins/hls/hls.min.js"></script>
+<script type="text/javascript">
+new Vue({
+	el:"#app",
+	data:{
+		socket:null,
+		isReady:false,
+		devs:[],
+		hls:null,
+		currDevCode:null
+	},
+	methods:{
+		_play:function(){
+			if (Hls.isSupported()) {
+				var self = this;
+				self.$nextTick(function(){
+					var video = self.$refs.video;
+					if(!self.hls){
+						video.volume = 1.0;
+						self.hls = new Hls();
+						self.hls.on(Hls.Events.MANIFEST_PARSED, function () {
+							self.$refs.video.play();
+						});
+					}
+					self.hls.loadSource(`http://127.0.0.1:#(serverPort)#(contextPath)hls/${self.currDevCode}/index.m3u8`);
+					self.hls.attachMedia(video);
+				});
+			}
+		},
+		onReady:function(){
+			this.send({action:"loadDevs"})
+		},
+		onDevChoosed:function(index){
+			this.currDevCode = this.devs[index].code;
+			this._play();
+		},
+		onMessage:function(data){
+			console.log(data)
+			var result = eval(data);
+			if(result.code==="fail"){
+				if(result.message){
+					this.$message.error(result.message);
+				}else{
+					this.$message.error("操作失败");
+				}
+			}else if(result.action=="loadDevs"){
+				this.devs = result.object;
+			}
+		},
+		send:function(message){
+			if(!this.isReady){
+				alert("this socket is not ready!");
+				return;
+			}
+			this.socket.send(JSON.stringify(message));
+		}
+	},
+	created:function(){
+		var self = this;
+		if(window.WebSocket){
+			self.socket = new WebSocket('ws://'+window.location.host+'/api.ws');
+			//建立websocket连接
+			self.socket.onopen = function(){
+				self.isReady = self.socket.readyState==1;
+				self.onReady();
+			};
+			self.socket.onmessage = function(event) {
+				console.log(event)
+			    var data = JSON.parse(event.data);
+				self.onMessage(data);
+			};
+			self.socket.onclose = function(event) {
+				self.isReady = false;
+			};
+		}
+	}
+});
+</script>
+</body>
+</html>
