@@ -14,8 +14,19 @@
 3.  根据需要，修改src/main/resources/config.properties配置项，如：服务端口、服务context_path、服务域名
 4.  修改conf/monitor.properties，录入项目需要对接的监控设备RTSP信息，其中监控设备代码随意命名，只是一个标识，不重复即可
 5.  双击运行start.bat即可开启服务
-6.  本服务提供了一个监控预览页面，在浏览器访问http://127.0.0.1:${服务端口}/${服务context_path}/live即可查看
-7.  对外提供监控HLS预览地址，URL格式为http://${IP}:${服务端口}/${服务context_path}/hls/${监控设备代码}/index.m3u8
+6.  本服务提供了一个监控预览页面，在浏览器访问http://127.0.0.1:{服务端口}/{服务context_path}/live即可查看
+7.  对外提供监控HLS预览地址，URL格式为http://{IP}:{服务端口}/{服务context_path}/hls/{监控设备代码}/index.m3u8
+
+#### 使用举例
+
+例如现在我要接入一台监控设备，那么接入步骤就是：
+
+0.  下载源码，解压根目录下的third.zip
+1.  编译源码，在target目录下得到monitor-rtsp-hls-release.zip，解压该zip，得到monitor-rtsp-hls文件夹
+2.  修改conf/monitor.properties设备配置文件，添加相应设备配置信息，如图：
+![输入图片说明](https://images.gitee.com/uploads/images/2021/0121/170857_cd88f9f0_107658.png "微信图片_20210121170801.png")
+3.  如果有需要修改服务端口信息，则编辑conf/config.properties中的server.port、server.context_path、server.domain等参数，没有需要不修改即可
+4.  到此配置就完成了，双击根目录start.bat运行，接下来就可以打开http://127.0.0.1:{服务端口}/{服务context_path}/live地址查看配置的设备
 
 #### 原理说明
 
