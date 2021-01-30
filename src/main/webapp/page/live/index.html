@@ -44,13 +44,14 @@ new Vue({
 				var self = this;
 				self.$nextTick(function(){
 					var video = self.$refs.video;
-					if(!self.hls){
-						video.volume = 1.0;
-						self.hls = new Hls();
-						self.hls.on(Hls.Events.MANIFEST_PARSED, function () {
-							self.$refs.video.play();
-						});
+					if(self.hls){
+						self.hls.destroy();
 					}
+					video.volume = 1.0;
+					self.hls = new Hls();
+					self.hls.on(Hls.Events.MANIFEST_PARSED, function () {
+						self.$refs.video.play();
+					});
 					self.hls.loadSource(`http://127.0.0.1:#(serverPort)#(contextPath)hls/${self.currDevCode}/index.m3u8`);
 					self.hls.attachMedia(video);
 				});

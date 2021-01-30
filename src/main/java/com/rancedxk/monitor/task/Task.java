@@ -32,11 +32,14 @@ public class Task implements Runnable{
     private static final long duration = PropKit.getLong("hls.duration");
     //设备信息
     private Dev dev;
-    //HLS目录
+    //设备HLS目录路径
+    private String dirPath;
+    //M3U8文件路径
     private String m3u8Path;
 
     public Task(Dev dev) {
         this.dev = dev;
+        this.dirPath = H.getPath(dev.getCode());
         this.m3u8Path = H.getPath(dev.getCode(),"index.m3u8");
     }
 
@@ -65,34 +68,37 @@ public class Task implements Runnable{
     public void run() {
         //开始
         isRunning = true;
-        String dir = H.getPath(dev.getCode());
         //创建文件夹
-        createDir(dir);
+        createDir();
         //运行，设置视频源和推流地址和HLS目录
-        convert(dev.getRtsp(),dev.getCode());
+        convert();
         //运行结束，从池中移除
         TaskManager.remove(dev.getCode());
         //删除文件夹
-        deleteDir(dir);
+        deleteDir();
         //结束
         isRunning = false;
     }
 
-    private void convert(String rtsp, String code) {
-        //检测RTSP流服务是否可访问
-        if(!isConnectable(rtsp)){
+    private void convert() {
+    	String streamUrl = this.dev.getStreamUrl();
+    	if(StrKit.isBlank(streamUrl)){
+    		return;
+    	}
+        //检测流服务是否可访问
+        if(!isConnectable(streamUrl)){
             return;
         }
         try {
-            logger.info(S.f("设备[%s]：%s", code, "开始转码"));
-            Process process = F.ffmpeg(rtsp, this.m3u8Path);
+            logger.info(S.f("设备[%s]：%s", this.dev.getCode(), "开始转码"));
+            Process process = F.ffmpeg(streamUrl, this.m3u8Path);
             InputStream is = process.getErrorStream();
             BufferedReader br = new BufferedReader(new InputStreamReader(is));
             String line;
             this.startTime = System.currentTimeMillis();
             while(System.currentTimeMillis()-startTime < duration && (line = br.readLine()) != null) {
             	if(PropKit.getBoolean("ffmpeg.log")){
-            		logger.error(S.f("设备[%s]： %s", code, line));
+            		logger.error(S.f("设备[%s]： %s", this.dev.getCode(), line));
             	}
             }
             //关闭流，释放资源
@@ -102,21 +108,18 @@ public class Task implements Runnable{
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
-            logger.info(S.f("设备[%s]：%s", code, "结束转码"));
+            logger.info(S.f("设备[%s]：%s", this.dev.getCode(), "结束转码"));
 		}
     }
 
     /**
      * 检测指定IP+端口是否可连接
-     * @param rtsp
-     * @return
+     * @param streamUrl RTSP或RTMP地址
+     * @return true：可连接，false：不可连接
      */
-    private boolean isConnectable(String rtsp) {
-        if(StrKit.isBlank(rtsp)){
-            return false;
-        }
-        String ip = ReUtil.get(Pattern.compile("(\\d+\\.\\d+\\.\\d+\\.\\d+):(\\d+)"), rtsp, 1);
-        String port = ReUtil.get(Pattern.compile("(\\d+\\.\\d+\\.\\d+\\.\\d+):(\\d+)"), rtsp, 2);
+    private boolean isConnectable(String streamUrl) {
+        String ip = ReUtil.get(Pattern.compile("(\\d+\\.\\d+\\.\\d+\\.\\d+):(\\d+)"), streamUrl, 1);
+        String port = ReUtil.get(Pattern.compile("(\\d+\\.\\d+\\.\\d+\\.\\d+):(\\d+)"), streamUrl, 2);
         if(StrKit.isBlank(ip)||StrKit.isBlank(port)){
             return true;
         }
@@ -144,20 +147,22 @@ public class Task implements Runnable{
     }
     /**
      * 创建文件夹
-     * @param dir
      * @return true:正确 false:错误
      */
-    private boolean createDir(String dir){
-        File file = new File(dir);
+    private boolean createDir(){
+        File file = new File(this.dirPath);
         return file.mkdir();
     }
     /**
      * 删除文件夹
      * @param dir
      */
-    private void deleteDir(String dir){
-        File file = new File(dir);
-        //删除文件夹
+    private void deleteDir(){
+        deleteDir(this.dirPath);
+    }
+    private void deleteDir(String path){
+        File file = new File(path);
+    	//删除文件夹
         if(file.isFile()){
             file.delete();
         }else{

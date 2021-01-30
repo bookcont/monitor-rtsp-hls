@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.jfinal.kit.Prop;
+import com.jfinal.kit.StrKit;
 
 public class DevManager {
 	
@@ -14,7 +15,7 @@ public class DevManager {
 		Prop prop = new Prop("monitor.properties");
 		String codes = prop.get("monitor.codes");
 		for(String code : codes.split(",")){
-			devs.put(code, new Dev(code,prop.get(String.format("monitor.%s.title",code)),prop.get(String.format("monitor.%s.rtsp",code))));
+			devs.put(code, new Dev(code,prop.get(String.format("monitor.%s.title",code)),prop.get(String.format("monitor.%s.rtsp",code)),prop.get(String.format("monitor.%s.rtmp",code))));
 		}
 		//初始化TaskManager
 		TaskManager.init(devs.size());
@@ -36,24 +37,32 @@ public class DevManager {
 		String code;
 		String title;
 		String rtsp;
+		String rtmp;
 		
-		public Dev(String code,String title,String rtsp) {
+		public Dev(String code,String title,String rtsp,String rtmp) {
 			this.code = code;
 			this.title = title;
 			this.rtsp = rtsp;
+			this.rtmp = rtmp;
 		}
 		
 		public String getCode() {
 			return code;
-		}
-		public String getRtsp() {
-			return rtsp;
 		}
 		public void setTitle(String title) {
 			this.title = title;
 		}
 		public String getTitle() {
 			return title;
+		}
+		public String getStreamUrl() {
+			if(StrKit.notBlank(rtsp)){
+				return rtsp;
+			}
+			if(StrKit.notBlank(rtmp)){
+				return rtmp;
+			}
+			return null;
 		}
 	}
 }

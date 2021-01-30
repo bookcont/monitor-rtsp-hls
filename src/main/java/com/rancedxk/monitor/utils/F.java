@@ -7,6 +7,7 @@ import java.util.Scanner;
 
 import com.rancedxk.monitor.Config;
 import com.jfinal.kit.Kv;
+import com.jfinal.kit.PropKit;
 
 /**
  * 执行系统命令
@@ -18,16 +19,20 @@ public class F {
 	
 	/**
 	 * 执行命令行并获取进程
-	 * @param rtspUrl RTSP流地址
+	 * @param streamUrl 流地址
 	 * @param m3u8FileName 输出的m3u8文件名
-	 * @return
+	 * @return 返回window处理线程
 	 * @throws IOException
 	 */
-	public synchronized static Process ffmpeg(String rtspUrl, String m3u8FileName) throws IOException {
+	public synchronized static Process ffmpeg(String streamUrl, String m3u8FileName) throws IOException {
+		String ckey = PropKit.get("ffmpeg.cmd.rtsp");
+		if(streamUrl.startsWith("rtmp://")){
+			ckey = PropKit.get("ffmpeg.cmd.rtmp");
+		}
         //从配置文件中读取命令模板，并注入相应的动态参数值
-		String cmd = S.tc("ffmpeg.cmd",Kv.create()
+		String cmd = S.t(ckey,Kv.create()
                                     .set("ffmpeg_path", basePath)
-									.set("monitor_code_rtsp",rtspUrl)
+									.set("monitor_stream_url",streamUrl)
 									.set("hls_m3u8_path", m3u8FileName));
 		//执行命令获取主进程
 		Process process = Runtime.getRuntime().exec(cmd);
