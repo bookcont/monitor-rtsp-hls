@@ -47,17 +47,17 @@ public class Config extends JFinalConfig{
 	@Override
 	public void afterJFinalStart() {
 		//1.初始化启动Nginx
-		try {
+		//try {
 			//关闭Nginx
-			N.stop();
+			//N.stop();
 			//同步配置信息
-			N.config();
+			//N.config();
 			//启动Nginx
-			N.start();
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw new RuntimeException("启动Nginx失败");
-		}
+			//N.start();
+		//} catch (Exception e) {
+			//e.printStackTrace();
+			//throw new RuntimeException("启动Nginx");
+		//}
 
 		//2.初始化创建HLS路径
 		H.initHome();

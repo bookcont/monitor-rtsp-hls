@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: com.jfinal:jfinal:4.9.06">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/com/jfinal/jfinal/4.9.06/jfinal-4.9.06.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/com/jfinal/jfinal/4.9.06/jfinal-4.9.06-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/com/jfinal/jfinal/4.9.06/jfinal-4.9.06-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
