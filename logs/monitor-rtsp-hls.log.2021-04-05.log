@@ -1,0 +1,6 @@
+
+2021-04-05 23:08:46
+[INFO]-[Thread: main]-[io.undertow.websockets.jsr.ServerWebSocketContainer.addEndpointInternal()]: UT026003: Adding annotated server endpoint class com.rancedxk.monitor.controller.LiveSocket for path /api.ws
+
+2021-04-05 23:09:23
+[INFO]-[Thread: main]-[io.undertow.websockets.jsr.ServerWebSocketContainer.addEndpointInternal()]: UT026003: Adding annotated server endpoint class com.rancedxk.monitor.controller.LiveSocket for path /api.ws

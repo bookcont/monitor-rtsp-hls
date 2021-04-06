@@ -1,0 +1,28 @@
+2021/04/06 20:31:08 [notice] 7508#2468: signal process started
+2021/04/06 20:31:08 [error] 7508#2468: CreateFile() "D:\workSpace\monitor-rtsp-hls-ex\third\nginx/logs/nginx.pid" failed (2: The system cannot find the file specified)
+2021/04/06 20:44:22 [notice] 17140#11152: signal process started
+2021/04/06 20:44:22 [error] 17140#11152: OpenEvent("Global\ngx_stop_684") failed (2: The system cannot find the file specified)
+2021/04/06 20:46:01 [notice] 18356#13188: signal process started
+2021/04/06 20:46:01 [error] 18356#13188: OpenEvent("Global\ngx_stop_19156") failed (2: The system cannot find the file specified)
+2021/04/06 20:51:02 [notice] 1176#12332: signal process started
+2021/04/06 20:51:02 [error] 1176#12332: OpenEvent("Global\ngx_stop_11184") failed (2: The system cannot find the file specified)
+2021/04/06 21:08:59 [notice] 2144#15436: signal process started
+2021/04/06 21:08:59 [error] 2144#15436: OpenEvent("Global\ngx_stop_16836") failed (2: The system cannot find the file specified)
+2021/04/06 21:09:06 [error] 8296#15968: *1 CreateFile() "D:\workSpace\monitor-rtsp-hls-ex\third\nginx/html/favicon.ico" failed (3: The system cannot find the path specified), client: 127.0.0.1, server: localhost, request: "GET /favicon.ico HTTP/1.1", host: "127.0.0.1:1935", referrer: "http://127.0.0.1:1935/myhls/live"
+2021/04/06 21:11:32 [notice] 14200#15860: signal process started
+2021/04/06 21:11:32 [error] 14200#15860: OpenEvent("Global\ngx_stop_6404") failed (2: The system cannot find the file specified)
+2021/04/06 21:11:38 [error] 13404#16444: *2 CreateFile() "D:\workSpace\monitor-rtsp-hls-ex\third\nginx/html/favicon.ico" failed (3: The system cannot find the path specified), client: 127.0.0.1, server: localhost, request: "GET /favicon.ico HTTP/1.1", host: "127.0.0.1:1935", referrer: "http://127.0.0.1:1935/myhls/live"
+2021/04/06 21:11:46 [notice] 7996#16632: signal process started
+2021/04/06 21:11:46 [error] 7996#16632: OpenEvent("Global\ngx_stop_11400") failed (2: The system cannot find the file specified)
+2021/04/06 21:45:24 [notice] 14212#15328: signal process started
+2021/04/06 21:45:24 [error] 14212#15328: OpenEvent("Global\ngx_stop_18288") failed (2: The system cannot find the file specified)
+2021/04/06 21:51:47 [notice] 16656#8732: signal process started
+2021/04/06 21:51:47 [error] 16656#8732: OpenEvent("Global\ngx_stop_10780") failed (2: The system cannot find the file specified)
+2021/04/06 21:51:53 [alert] 11940#11564: *1024 1024 worker_connections are not enough while connecting to upstream, client: 127.0.0.1, server: localhost, request: "GET /live HTTP/1.1", upstream: "http://127.0.0.1:1935/live", host: "127.0.0.1:1935"
+2021/04/06 21:51:54 [alert] 11940#11564: *2046 1024 worker_connections are not enough while connecting to upstream, client: 127.0.0.1, server: localhost, request: "GET /favicon.ico HTTP/1.1", upstream: "http://127.0.0.1:1935/favicon.ico", host: "127.0.0.1:1935", referrer: "http://127.0.0.1:1935//live"
+2021/04/06 21:52:35 [alert] 11940#11564: *3070 1024 worker_connections are not enough while connecting to upstream, client: 127.0.0.1, server: localhost, request: "GET /process/4 HTTP/1.1", upstream: "http://127.0.0.1:1935/process/4", host: "127.0.0.1:1935"
+2021/04/06 21:53:07 [alert] 11940#11564: *4093 1024 worker_connections are not enough while connecting to upstream, client: 127.0.0.1, server: localhost, request: "GET /process/4 HTTP/1.1", upstream: "http://127.0.0.1:1935/process/4", host: "127.0.0.1:1935"
+2021/04/06 21:53:16 [alert] 11940#11564: *5116 1024 worker_connections are not enough while connecting to upstream, client: 127.0.0.1, server: localhost, request: "GET /process/4 HTTP/1.1", upstream: "http://127.0.0.1:1935/process/4", host: "127.0.0.1:1935"
+2021/04/06 21:56:48 [alert] 11940#11564: *6140 1024 worker_connections are not enough while connecting to upstream, client: 127.0.0.1, server: localhost, request: "GET /live HTTP/1.1", upstream: "http://127.0.0.1:1935/live", host: "127.0.0.1:1935"
+2021/04/06 21:56:55 [notice] 14844#7484: signal process started
+2021/04/06 21:56:55 [error] 14844#7484: OpenEvent("Global\ngx_stop_16220") failed (2: The system cannot find the file specified)
