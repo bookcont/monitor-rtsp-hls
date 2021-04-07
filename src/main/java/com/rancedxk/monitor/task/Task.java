@@ -22,7 +22,7 @@ import com.jfinal.kit.StrKit;
 
 import cn.hutool.core.util.ReUtil;
 
-public class Task implements Runnable{
+public class Task implements Runnable {
     private Logger logger = Logger.getLogger(getClass());
 
     private boolean isRunning = false;
@@ -40,7 +40,7 @@ public class Task implements Runnable{
     public Task(Dev dev) {
         this.dev = dev;
         this.dirPath = H.getPath(dev.getCode());
-        this.m3u8Path = H.getPath(dev.getCode(),"index.m3u8");
+        this.m3u8Path = H.getPath(dev.getCode(), "index.m3u8");
     }
 
     public Dev getDev() {
@@ -55,10 +55,10 @@ public class Task implements Runnable{
      * 设置开始时间为当前时间，以此来延长转换持续时间
      */
     public void active() {
-        if(!this.isRunning){
+        if (!this.isRunning) {
             //如果当前已经停止，则重新运行
             this.run();
-        }else{
+        } else {
             //如果正在运行，则重新设置startTime
             this.startTime = System.currentTimeMillis();
         }
@@ -75,18 +75,18 @@ public class Task implements Runnable{
         //运行结束，从池中移除
         TaskManager.remove(dev.getCode());
         //删除文件夹
-        deleteDir();
+        //deleteDir();
         //结束
         isRunning = false;
     }
 
     private void convert() {
-    	String streamUrl = this.dev.getStreamUrl();
-    	if(StrKit.isBlank(streamUrl)){
-    		return;
-    	}
+        String streamUrl = this.dev.getStreamUrl();
+        if (StrKit.isBlank(streamUrl)) {
+            return;
+        }
         //检测流服务是否可访问
-        if(!isConnectable(streamUrl)){
+        if (!isConnectable(streamUrl)) {
             return;
         }
         try {
@@ -96,36 +96,37 @@ public class Task implements Runnable{
             BufferedReader br = new BufferedReader(new InputStreamReader(is));
             String line;
             this.startTime = System.currentTimeMillis();
-            while(System.currentTimeMillis()-startTime < duration && (line = br.readLine()) != null) {
-            	if(PropKit.getBoolean("ffmpeg.log")){
-            		logger.error(S.f("设备[%s]： %s", this.dev.getCode(), line));
-            	}
+            while (System.currentTimeMillis() - startTime < duration && (line = br.readLine()) != null) {
+                if (PropKit.getBoolean("ffmpeg.log")) {
+                    logger.error(S.f("设备[%s]： %s", this.dev.getCode(), line));
+                }
             }
             //关闭流，释放资源
-            if(process != null){
+            if (process != null) {
                 process.destroy();
             }
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
             logger.info(S.f("设备[%s]：%s", this.dev.getCode(), "结束转码"));
-		}
+        }
     }
 
     /**
      * 检测指定IP+端口是否可连接
+     *
      * @param streamUrl RTSP或RTMP地址
      * @return true：可连接，false：不可连接
      */
     private boolean isConnectable(String streamUrl) {
         String ip = ReUtil.get(Pattern.compile("(\\d+\\.\\d+\\.\\d+\\.\\d+):(\\d+)"), streamUrl, 1);
         String port = ReUtil.get(Pattern.compile("(\\d+\\.\\d+\\.\\d+\\.\\d+):(\\d+)"), streamUrl, 2);
-        if(StrKit.isBlank(ip)||StrKit.isBlank(port)){
+        if (StrKit.isBlank(ip) || StrKit.isBlank(port)) {
             return true;
         }
         Socket socket = null;
         try {
-            if(InetAddress.getByName(ip).isReachable(3000)){
+            if (InetAddress.getByName(ip).isReachable(3000)) {
                 socket = new Socket();
                 socket.connect(new InetSocketAddress(ip, Integer.valueOf(port)));
                 return true;
@@ -135,7 +136,7 @@ public class Task implements Runnable{
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
-            if(socket!=null){
+            if (socket != null) {
                 try {
                     socket.close();
                 } catch (IOException e) {
@@ -145,31 +146,37 @@ public class Task implements Runnable{
         }
         return false;
     }
+
     /**
      * 创建文件夹
+     *
      * @return true:正确 false:错误
      */
-    private boolean createDir(){
+    private boolean createDir() {
         File file = new File(this.dirPath);
+        if (file.exists()) return true;
         return file.mkdir();
     }
+
     /**
      * 删除文件夹
-     * @param dir
+     *
+     * @param
      */
-    private void deleteDir(){
+    private void deleteDir() {
         deleteDir(this.dirPath);
     }
-    private void deleteDir(String path){
+
+    private void deleteDir(String path) {
         File file = new File(path);
-    	//删除文件夹
-        if(file.isFile()){
+        //删除文件夹
+        if (file.isFile()) {
             file.delete();
-        }else{
+        } else {
             File[] files = file.listFiles();
-            if(files == null){
+            if (files == null) {
                 file.delete();
-            }else{
+            } else {
                 for (int i = 0; i < files.length; i++) {
                     deleteDir(files[i].getAbsolutePath());
                 }
